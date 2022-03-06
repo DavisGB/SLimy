@@ -3,17 +3,38 @@
     <!-- Moralis SDK code -->
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
     <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+
     <link rel="stylesheet" href="/assets/css/style.css">
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/assets/css/fontawesome.min.css">
   </head>
+
   <body>
 
-    <h1>Slimy NFT - Dev Branch</h1>
-      <div class="container">
+    <div class="container">
+
+      <!-- Navigation-->
+      <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+        <div class="container px-4">
+            <a class="navbar-brand" href="#page-top">SLimy</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><button id="btn-login" class="btn btn-primary mr-2" href="#">Moralis Login</a></li>
+                    <li class="nav-item"><button id="btnlogout" class=" btn btn-warning mr-1" href="#">Show Inventory</a></li>
+                    <li class="nav-item"><button id="get-nft-list" class="btn btn-danger mr-1" href="#">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+      <h1>Slimy NFT - Dev Branch</h1>
         
+      <!--
         <button id="btn-login" class="loginbutton">Moralis Login</button>
         <button id="btn-logout" class="btn btn-danger">Logout</button>
         <button id="get-nft-list">Show Inventory</button>
+      -->
 
         <div class="inventoryslots">
           <image id="innerinventory1" class="inventoryrounded" src="/assets/images/empty.png" width="128" height="128">  </image>
@@ -32,10 +53,23 @@
           <image id="innerinventory8" class="inventoryrounded" src="/assets/images/empty.png" width="128" height="128" >  </image>
           <image id="innerinventory9" class="inventoryrounded" src="/assets/images/empty.png" width="128" height="128" >  </image>
         </div>
+        
+        <!--
+        <div class="container">
+          <button id="previousPageInv" class="btn btn-success"><i class="fa-solid fa-chevron-left"></i></i> Previous </button>
+          1
+          <button id="nextPageInv" class="btn btn-success"> Next </button>
+        </div>
+        -->
+        <nav aria-label="Page navigation example">
+          <ul class="pagination">
+            <li id="previousPageInv" class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li id="nextPageInv" class="page-item"><a class="page-link" href="#">Next</a></li>
+          </ul>
+        </nav>
 
-        <button id="previousPageInv">previous</button>   <p id="pagenumber">1</p>   <button id="nextPageInv">next</button>  
-
-      </div>
+    </div>
     
     <script type="text/javascript" src="/assets/js/main.js"></script>
     
