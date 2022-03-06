@@ -1,0 +1,43 @@
+<html>
+  <head>
+    <!-- Moralis SDK code -->
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+    <script src="https://unpkg.com/moralis/dist/moralis.js"></script>
+    <style>
+    img.inventoryrounded {border-style: solid;border-color:firebrick;border-radius: 10px;border-width: 1px;background-color: wheat;}
+    div.inventoryslots {margin-top: 10px;margin-bottom: 10px;}
+    button.loginbutton {border-style: thin;border-color:darkblue;border-radius: 5px;border-width: 1px;background-color:cornflowerblue;font-family:'Courier New', Courier, monospace;font-weight: bold;}
+    </style>
+    <link rel="stylesheet" href="bootstrap.min.css">
+  </head>
+  <body>
+    <h1>Slimy NFT</h1>
+
+      <button id="btn-login" class="loginbutton">Moralis Login</button>
+      <button id="btn-logout" class="btn btn-danger">Logout</button>
+      <button id="get-nft-list">Show Inventory</button>
+      <div class="inventoryslots">
+      <image id="innerinventory1" class="inventoryrounded" src="empty.png" width="128" height="128">  </image>
+      <image id="innerinventory2" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+      <image id="innerinventory3" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+    </div><div class="inventoryslots">
+      <image id="innerinventory4" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+      <image id="innerinventory5" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+      <image id="innerinventory6" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+    </div><div class="inventoryslots">
+      <image id="innerinventory7" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+      <image id="innerinventory8" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+      <image id="innerinventory9" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
+    </div>
+    <button id="previousPageInv">previous</button>   <p id="pagenumber">1</p>   <button id="nextPageInv">next</button>
+    </div>
+
+    
+    <script type="text/javascript" src="./main.js"></script>
+    
+
+
+
+
+  </body>
+</html>
