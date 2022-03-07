@@ -7,14 +7,18 @@
     img.inventoryrounded {border-style: solid;border-color:firebrick;border-radius: 10px;border-width: 1px;background-color: wheat;}
     div.inventoryslots {margin-top: 10px;margin-bottom: 10px;}
     button.loginbutton {border-style: thin;border-color:darkblue;border-radius: 5px;border-width: 1px;background-color:cornflowerblue;font-family:'Courier New', Courier, monospace;font-weight: bold;}
+    div.loginstuff{position:absolute;top:10px;right: 10px;}
     </style>
     <link rel="stylesheet" href="bootstrap.min.css">
-  </head>
-  <body>
+    </head>
+    <body>
     <h1>Slimy NFT</h1>
-
+      <div class="loginstuff">
       <button id="btn-login" class="loginbutton">Moralis Login</button>
       <button id="btn-logout" class="btn btn-danger">Logout</button>
+      </div>
+
+      <div class="InventoryUI">
       <button id="get-nft-list">Show Inventory</button>
       <div class="inventoryslots">
       <image id="innerinventory1" class="inventoryrounded" src="empty.png" width="128" height="128">  </image>
@@ -30,7 +34,7 @@
       <image id="innerinventory9" class="inventoryrounded" src="empty.png" width="128" height="128" >  </image>
     </div>
     <button id="previousPageInv">previous</button>   <p id="pagenumber">1</p>   <button id="nextPageInv">next</button>
-    </div>
+    </div></div>
 
     
     <script type="text/javascript" src="./main.js"></script>
