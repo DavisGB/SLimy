@@ -21,8 +21,8 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><button id="btn-login" class="btn btn-primary mr-2" href="#">Moralis Login</a></li>
-                    <li class="nav-item"><button id="btnlogout" class=" btn btn-warning mr-1" href="#">Show Inventory</a></li>
-                    <li class="nav-item"><button id="get-nft-list" class="btn btn-danger mr-1" href="#">Logout</a></li>
+                    <li class="nav-item"><button id="get-nft-list" class=" btn btn-warning mr-1" href="#">Show Inventory</a></li>
+                    <li class="nav-item"><button id="btn-logout" class="btn btn-danger mr-1" href="#">Logout</a></li>
                 </ul>
             </div>
         </div>
@@ -63,13 +63,13 @@
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li id="previousPageInv" class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item" id="page-item"><a class="page-link" href="#">1</a></li>
             <li id="nextPageInv" class="page-item"><a class="page-link" href="#">Next</a></li>
           </ul>
         </nav>
 
     </div>
-    
+    <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
     
 

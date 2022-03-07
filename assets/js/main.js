@@ -531,7 +531,7 @@ async function uploadFire() {
         params: { owner: user.attributes.ethAddress},
       };
     const balanceoftokens = await Moralis.Web3API.native.runContractFunction(options);
-    var pagenumber = document.getElementById("pagenumber").textContent;
+    var pagenumber = document.getElementById("page-item").textContent;
       console.log(pagenumber);
     const x = await Moralis.Web3API.account.getNFTsForContract({
         chain: "bsc testnet",
@@ -541,6 +541,7 @@ async function uploadFire() {
 
 	  var slotnumber;
 	  var tempelement;
+
     for(let o = 0; o<balanceoftokens.toString()/9;o++)
      {
          for(let i =0 ;i<9;i++)
