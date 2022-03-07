@@ -1,8 +1,14 @@
  // connect to Moralis server
- const CONTRACTADDRESS = "0x2Da69eF5bb13135CBD52CC4bee47fdD19d0ffC5b";
+ const CONTRACTADDRESS = "0x6A7481aDB3F685A12395c4907Ea7F87eB874a853";
  const ABI = [
 	{
-		"inputs": [],
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "tokenaddress",
+				"type": "address"
+			}
+		],
 		"stateMutability": "nonpayable",
 		"type": "constructor"
 	},
@@ -402,6 +408,19 @@
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "slimytokencontract",
+		"outputs": [
+			{
+				"internalType": "contract SlimyToken",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "bytes4",
@@ -487,6 +506,29 @@
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "amount",
+				"type": "uint256"
+			}
+		],
+		"name": "transfertoken",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
 	}
 ];
 
@@ -505,16 +547,18 @@
 
 
  }
-
+ //uploading test NFTs
 /*
+ document.getElementById("uploadtest").onclick = uploadFire;
+ const fileInput = document.getElementById("fileInput");
 async function uploadFire() {
 	const data = fileInput.files[0]
 	const file = new Moralis.File(data.name, data)
 	await file.saveIPFS();
 	console.log(file.ipfs(), file.hash());
 	const slimeparts = new Moralis.Object('slimeparts');
-	slimeparts.set('type','element');
-	slimeparts.set('info','dark');
+	slimeparts.set('type','rank');
+	slimeparts.set('info','3');
 	slimeparts.set('file',file);
 	await slimeparts.save();
 
@@ -582,7 +626,24 @@ async function uploadFire() {
 				   console.log('IPFS hash', hash)
 				   console.log(tempelement);
 				   tempelement.src=ipfs;
-				})	
+				})
+
+
+			temprank = document.getElementById("innerinventory" + slotnumber + "rank");	
+			const rank = statarray[0];
+			console.log(rank);
+			const rankquery = new Moralis.Query('slimeparts')
+			rankquery.equalTo('info', rank)
+			await rankquery.find().then(function ([application]) {
+		
+				   const ipfs = application.get('file').ipfs()
+				   const hash = application.get('file').hash()
+				   console.log('IPFS url', ipfs)
+				   console.log('IPFS hash', hash)
+				   console.log(tempelement);
+				   temprank.src=ipfs;
+				})		
+			
 		
 
             
@@ -613,43 +674,69 @@ async function uploadFire() {
 var inv1 = document.getElementById("innerinventory1");
 inv1.style.width=64;
 inv1.style.height=64;
+var inv1r = document.getElementById("innerinventory1rank");
+inv1r.style.width=64;
+inv1r.style.height=64;
 
 var inv2 = document.getElementById("innerinventory2");
 inv2.style.width=64;
 inv2.style.height=64;
+var inv2r = document.getElementById("innerinventory2rank");
+inv2r.style.width=64;
+inv2r.style.height=64;
 
 
 
 var inv3 = document.getElementById("innerinventory3");
 inv3.style.width=64;
 inv3.style.height=64;
+var inv3r = document.getElementById("innerinventory3rank");
+inv3r.style.width=64;
+inv3r.style.height=64;
 
 
 var inv4 = document.getElementById("innerinventory4");
 inv4.style.width=64;
 inv4.style.height=64;
-
+var inv4r = document.getElementById("innerinventory4rank");
+inv4r.style.width=64;
+inv4r.style.height=64;
 
 var inv5 = document.getElementById("innerinventory5");
 inv5.style.width=64;
 inv5.style.height=64;
+var inv5r = document.getElementById("innerinventory5rank");
+inv5r.style.width=64;
+inv5r.style.height=64;
 
 
 var inv6 = document.getElementById("innerinventory6");
 inv6.style.width=64;
 inv6.style.height=64;
+var inv6r = document.getElementById("innerinventory6rank");
+inv6r.style.width=64;
+inv6r.style.height=64;
 
 
 var inv7 = document.getElementById("innerinventory7");
 inv7.style.width=64;
 inv7.style.height=64;
+var inv7r = document.getElementById("innerinventory7rank");
+inv7r.style.width=64;
+inv7r.style.height=64;
 
 
 var inv8 = document.getElementById("innerinventory8");
 inv8.style.width=64;
 inv8.style.height=64;
+var inv8r = document.getElementById("innerinventory8rank");
+inv8r.style.width=64;
+inv8r.style.height=64;
 
 var inv9 = document.getElementById("innerinventory9");
 inv9.style.width=64;
 inv9.style.height=64;
+var inv9r = document.getElementById("innerinventory9rank");
+inv9r.style.width=64;
+inv9r.style.height=64;
 
