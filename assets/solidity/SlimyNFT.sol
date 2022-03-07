@@ -149,15 +149,15 @@ contract SlimyNFT is ERC721, Ownable{
         string[] memory slimestatarray = new string[](4);
         if(slimerank == 0)
         {
-            slimerankstring = "Rank 3";
+            slimerankstring = "3";
         }
         else if(slimerank>66)
         {
-            slimerankstring = "Rank 2";
+            slimerankstring = "2";
         }
         else
         {
-            slimerankstring = "Rank 1";
+            slimerankstring = "1";
         }
         slimestatarray[0] = slimerankstring;
         statnumber = statnumber / 100;
