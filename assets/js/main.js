@@ -541,7 +541,10 @@
    let user = Moralis.User.current();
    if (!user) {
      user = await Moralis.authenticate();
+	 document.getElementById("btn-login").textContent = user.attributes.ethAddress;
+	 document.getElementById("btn-logout").style.display = "block";
    }
+
    console.log("logged in user:", user);
 
 
@@ -658,19 +661,33 @@ async function uploadFire() {
 
 
 
+
+function init(){
+	let user = Moralis.User.current();
+	if(!user){
+		document.getElementById("btn-logout").style.display = "none";
+		console.log("this");
+	}
+	else{
+		document.getElementById("btn-logout").style.display = "block";
+		document.getElementById("btn-login").textContent = user.attributes.ethAddress;
+	}
+}
+
 	
 
  async function logOut() {
    await Moralis.User.logOut();
+   document.getElementById("btn-logout").style.display = "none";
+   document.getElementById("btn-login").textContent = "Login";
    console.log("logged out");
  }
-
+ init();
  document.getElementById("btn-login").onclick = login;
  document.getElementById("btn-logout").onclick = logOut;
  document.getElementById("get-nft-list").onclick = getnftlist;
 
 
- 
 var inv1 = document.getElementById("innerinventory1");
 inv1.style.width=64;
 inv1.style.height=64;
