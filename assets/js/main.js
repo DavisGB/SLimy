@@ -670,7 +670,7 @@ function init(){
 	}
 	else{
 		document.getElementById("btn-logout").style.display = "block";
-		document.getElementById("btn-login").textContent = user.attributes.ethAddress;
+		document.getElementById("btn-login").textContent = user.attributes.ethAddress.substring(0,8) + "....";
 	}
 }
 

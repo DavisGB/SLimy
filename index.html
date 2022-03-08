@@ -12,7 +12,7 @@
 
   </head>
 
-  <body>
+  <body style="background-color: #2A3620;">
 
     <div class="container">
 
@@ -24,8 +24,7 @@
             <div class="collapse navbar-collapse" id="navbarResponsive">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><button id="btn-login" class="btn btn-primary btn-sm me-2" href="#">Moralis Login</a></li>
-                    <li class="nav-item"><button id="get-nft-list" class=" btn btn-warning btn-sm me-2" href="#">Show Inventory</a></li>
-                    <li class="nav-item"><button id="btn-logout" class="btn btn-danger btn-sm" href="#">Logout</a></li>
+                    <li class="nav-item"><button id="btn-logout" class="btn btn-danger btn-sm me-2"  href="#">Logout</a></li>
                     <!--
                       --for uploading test NFTS--
 
@@ -39,7 +38,11 @@
         
       
       <br><br><br>
+      <div id="inventorymenu" style="border-radius: 10px; float:left; padding-left: 10px; padding-right: 10px; padding-top: 10px; background-color:#464D3F;">
+      <div id = "buttoninventory">
+      <button id="get-nft-list" class=" btn btn-primary btn-sm me-2" href="#">Show Inventory</button>
 
+      </div>
         <div class="inventoryslots">
           <div class = "parent">
           <image id="innerinventory1" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
@@ -81,20 +84,11 @@
           <image id="innerinventory8" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory8rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent">
+        <div class = "parent" style="margin-bottom: 10px;">
           <image id="innerinventory9" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory9rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
         
-        </div>
-        
-        <!--
-        <div class="container">
-          <button id="previousPageInv" class="btn btn-success"><i class="fa-solid fa-chevron-left"></i></i> Previous </button>
-          1
-          <button id="nextPageInv" class="btn btn-success"> Next </button>
-        </div>
-        -->
         <nav aria-label="Page navigation example">
           <ul class="pagination">
             <li id="previousPageInv" class="page-item"><a class="page-link" href="#">Previous</a></li>
@@ -105,6 +99,23 @@
 
     </div>
 
+        </div>
+        </div>
+        
+
+
+
+
+        <!--
+        <div class="container">
+          <button id="previousPageInv" class="btn btn-success"><i class="fa-solid fa-chevron-left"></i></i> Previous </button>
+          1
+          <button id="nextPageInv" class="btn btn-success"> Next </button>
+        </div>
+        -->
+  
+    
+    <div class="sidecontent" id ="sidecontent" style="float:right;">hi</div>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
 

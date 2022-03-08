@@ -32,14 +32,3 @@ div.inventoryslots {
 
 }
 
-button.loginbutton {
-
-    border-style: thin;
-    border-color:darkblue;
-    border-radius: 5px;
-    border-width: 1px;
-    background-color:cornflowerblue;
-    font-family:'Courier New', Courier, monospace;
-    font-weight: bold;
-
-}
