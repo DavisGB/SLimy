@@ -679,7 +679,7 @@ function init(){
  async function logOut() {
    await Moralis.User.logOut();
    document.getElementById("btn-logout").style.display = "none";
-   document.getElementById("btn-login").textContent = "Login";
+   document.getElementById("btn-login").textContent = "Moralis Login";
    console.log("logged out");
  }
  init();
