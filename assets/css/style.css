@@ -8,22 +8,30 @@ img.inventoryrounded {
 }
 
 .parent {
+
     position: relative;
     top: 0;
     left: 0;
     display: inline-block;
-  }
-  .image1 {
+
+}
+
+.image1 {
+
     position: relative;
     background-color: wheat;
     top: 0;
     left: 0;
-  }
-  .image2 {
+
+}
+
+.image2 {
+
     position: absolute;
     top: 0;
     left: 0px;
-  }
+    
+}
 
 div.inventoryslots {
     
