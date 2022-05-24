@@ -1,5 +1,6 @@
  // connect to Moralis server
  const CONTRACTADDRESS = "0x14577371A82da1d118F1E03B541DFeab8E46168C";
+ const FIGHTCONTRACTADDRESS = '0xb161A2D520109C5450948Ab4BCED3AdD84B227a0';
  const ABI = [
 	{
 		"inputs": [
@@ -655,6 +656,81 @@
 		"type": "function"
 	}
 ];
+
+const FIGHTABI = [
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "nftaddress",
+				"type": "address"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"internalType": "address",
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"internalType": "string",
+				"name": "value",
+				"type": "string"
+			}
+		],
+		"name": "Battlelog",
+		"type": "event"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "tokenId1",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId2",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId3",
+				"type": "uint256"
+			}
+		],
+		"name": "fightpve",
+		"outputs": [
+			{
+				"internalType": "string",
+				"name": "",
+				"type": "string"
+			}
+		],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "slimynftcontract",
+		"outputs": [
+			{
+				"internalType": "contract SlimyNFT",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	}
+];
  const serverUrl = "https://vbia6ungwme4.usemoralis.com:2053/server";
  const appId = "Cl4BLITUxXGcGnRzbGueG6DP8I7UvmEeNQs5O7oa";
  Moralis.start({ serverUrl, appId });
@@ -890,8 +966,41 @@ async function lognftmetadataindatabase()
 		
 	}
 
+	function hex_to_ascii(str1)
+	{
+		var hex  = str1.toString();
+		var str = '';
+		for (var n = 0; n < hex.length; n += 2) {
+			str += String.fromCharCode(parseInt(hex.substr(n, 2), 16));
+		}
+		return str;
+	}
+    async function fightversion2()
+	{
+		await Moralis.enableWeb3()
+		console.log(teamcharacterslist[0].id)
+		const options3 ={
+			chain: "bsc testnet",
+			contractAddress: FIGHTCONTRACTADDRESS,
+			functionName: "fightpve",
+			abi: FIGHTABI,
+			params: { tokenId1: teamcharacterslist[0].id, tokenId2: teamcharacterslist[1].id, tokenId3: teamcharacterslist[2].id},
+		};
+		const fightlog = await Moralis.executeFunction(options3);
+		await fightlog.wait(3).then(nftfightlog => {
+		var convertostringhex = hex_to_ascii(nftfightlog.logs[0].data);
+		document.getElementById("fight2").textContent = convertostringhex;
+		
+		
+		
+		
+		
+		
+		});
+		
 
-
+		
+	}
 	async function getnftlist() {
 		var listofnfts = new Array();
 		let user = Moralis.User.current();
