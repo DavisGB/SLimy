@@ -40,19 +40,23 @@
       <br><br><br>
       <div id="inventorymenu" style="border-radius: 10px; float:left; padding-left: 10px; padding-right: 10px; padding-top: 10px; background-color:#464D3F;">
       <div id = "buttoninventory">
+      <nav>
+      <ul>
       <button id="get-nft-list" class=" btn btn-primary btn-sm me-2" href="#">Show Inventory</button>
-
+      <button id="mint-nft" class="btn btn-primary btn-sm me-2" onclick="lognftmetadataindatabase()">Mint NFT</button>
+      </ul>
+      </nav>
       </div>
         <div class="inventoryslots">
-          <div class = "parent">
+          <div class = "parent inv1" onclick="clickoncharacter(1)">
           <image id="innerinventory1" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory1rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent">
+        <div class = "parent inv2" onclick="clickoncharacter(2)">
           <image id="innerinventory2" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory2rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent">
+        <div class = "parent inv3 " onclick="clickoncharacter(3)">
           <image id="innerinventory3" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory3rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
@@ -60,15 +64,15 @@
         </div>
 
         <div class="inventoryslots">
-          <div class = "parent">
+          <div class = "parent inv4" onclick="clickoncharacter(4)">
           <image id="innerinventory4" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory4rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent">
+        <div class = "parent inv5" onclick="clickoncharacter(5)">
           <image id="innerinventory5" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory5rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent">
+        <div class = "parent inv6" onclick="clickoncharacter(6)">
           <image id="innerinventory6" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory6rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
@@ -76,29 +80,30 @@
         </div>
 
         <div class="inventoryslots">
-          <div class = "parent">
+          <div class = "parent inv7" onclick="clickoncharacter(7)">
           <image id="innerinventory7" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory7rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent">
+        <div class = "parent inv8" onclick="clickoncharacter(8)">
           <image id="innerinventory8" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory8rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
-        <div class = "parent" style="margin-bottom: 10px;">
+        <div class = "parent inv9" style="margin-bottom: 10px;" onclick="clickoncharacter(9)">
           <image id="innerinventory9" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
           <image id="innerinventory9rank" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
         </div>
         
         <nav aria-label="Page navigation example">
           <ul class="pagination">
-            <li id="previousPageInv" class="page-item"><a class="page-link" href="#">Previous</a></li>
-            <li class="page-item" id="page-item"><a class="page-link" href="#">1</a></li>
-            <li id="nextPageInv" class="page-item"><a class="page-link" href="#">Next</a></li>
+            <button id="previousPageInv" onclick="previouspage()" class="page-item">Previous</button>
+            <button class="page-item" id="page-item" style ="pointer-events: none;cursor: not-allowed;opacity: 0.65;filter: alpha(opacity=65);-webkit-box-shadow: none;box-shadow: none;">1</button>
+            <button id="nextPageInv" onclick = "nextpage()" class="page-item">Next</button>
           </ul>
         </nav>
 
     </div>
-
+    
+    
         </div>
         </div>
         
@@ -115,7 +120,67 @@
         -->
   
     
-    <div class="sidecontent" id ="sidecontent" style="float:right;"></div>
+    <div class="sidecontent" id ="sidecontent" style="border-radius: 10px; float:right; margin-right: 200px; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px; background-color:#464D3F;position: relative" >
+    <div class="inventoryrounded battlebg ingame" width="240" height="112" style="display: block; image-rendering: pixelated;width: 960;height: 448;top: 0;left: 0;background-color: darkgrey;border-radius: 10px;">    
+      <image id="battlebg" class="inventoryrounded battlebg ingame" src="/assets/images/battlebg.png" width="240" height="112" style="image-rendering: pixelated;width: 960;height: 448;position:relative">  </image>
+      <image id="currentcharacter" src="/assets/images/element_fire.png" style="position: relative;bottom:250px;left: 100px;-moz-transform: scaleX(-1);
+      -o-transform: scaleX(-1);
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);"></image>
+      <image id="currentenemycharacter" src="/assets/images/element_fire.png" style="position: relative;top:-400px;left: 200px;"></image>
+      <div id = "enemycurrenthealth" style="border-radius: 10px;border-color: black;border-style: solid; position: absolute;background-color: teal; top: 100px;left: 40px; font-family: Georgia, 'Times New Roman', Times, serif;font-size:20px;color: whitesmoke;">Enemy Health: 0</div>
+      <div id = "playercurrenthealth" style="border-radius: 10px;border-color: black;border-style: solid; position: absolute;background-color: teal; top: 150px;left: 40px; font-family: Georgia, 'Times New Roman', Times, serif;font-size:20px;color: whitesmoke;">Player Health: 0</div>
+      <div id = "moves" style="border-radius: 10px;border-color: black;border-style: solid; position: absolute;background-color: teal; bottom: 50px;right: 100px; font-family: Georgia, 'Times New Roman', Times, serif;font-size:20px;color: whitesmoke;">
+      <button style="border-radius: 4px;"  onclick="doaction(1)">Attack</button>
+      <button style="border-radius: 4px;" onclick="doaction(2)">Defend</button>
+      <button style="border-radius: 4px;" onclick="doaction(3)">Charge</button>
+      
+      </div>
+      <div id = "eventlog" style="border-radius: 10px;border-color: black;border-style: solid; position: absolute;background-color: teal; top: 50px;left: 200px; font-family: Georgia, 'Times New Roman', Times, serif;font-size:15px;color: whitesmoke;">
+      Event Log: 
+      </div>
+    </div>
+
+      <div class="player ingame" id="player">
+      </div>
+    
+
+
+
+
+    <div id="startbattlemenu" class="startbattlemenu notingame" width="240" height="112" style="display: block; image-rendering: pixelated;width: 960;height: 448;top: 10;left: 10;background-color: darkgrey;border-radius: 10px;position:absolute;">  
+      <div class = "characterselect1" id = "characterselect1" style="margin-left: 100px; margin-right: 220px;margin-top: 20px; position: absolute">
+        <image id="characterselectelement1" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
+        <image id="characterselectrank1" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
+        <div class ="characterselectinfo1" id = "characterselectinfo1">
+        <div class ="characterselectinfoid1" id="characterselectinfoid1">ID: </div>
+        <div class ="characterselectinfohp1" id="characterselectinfohp1">HP: </div>
+        <div class ="characterselectinfoatk1" id="characterselectinfoatk1">ATK: </div>
+        <div class ="characterselectinfotype1" id="characterselectinfotype1">ATKTYPE: </div>
+        <div class ="characterselectinfoelement1" id="characterselectinfoelement1">ELEMENT: </div>
+        </div>
+      </div>
+      <div class = "characterselect2" id = "characterselect2" style="margin-left: 320px; margin-right: 220px;margin-top: 20px; position: absolute">
+        <image id="characterselectelement2" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
+        <image id="characterselectrank2" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
+        <div class ="characterselectinfoid2" id="characterselectinfoid2">ID: </div>
+        <div class ="characterselectinfohp2" id="characterselectinfohp2">HP: </div>
+        <div class ="characterselectinfoatk2" id="characterselectinfoatk2">ATK: </div>
+        <div class ="characterselectinfotype2" id="characterselectinfotype2">ATKTYPE: </div>
+        <div class ="characterselectinfoelement2" id="characterselectinfoelement2">ELEMENT: </div>
+      </div>
+      <div class = "characterselect3" id = "characterselect3" style="margin-left: 540px;margin-top: 20px; position: absolute">
+        <image id="characterselectelement3" class="inventoryrounded image1" src="/assets/images/empty.png" width="128" height="128">  </image>
+        <image id="characterselectrank3" class="inventoryrounded image2" src="/assets/images/filler.png" width="128" height="128">  </image>
+        <div class ="characterselectinfoid3" id="characterselectinfoid3">ID: </div>
+        <div class ="characterselectinfohp3" id="characterselectinfohp3">HP: </div>
+        <div class ="characterselectinfoatk3" id="characterselectinfoatk3">ATK: </div>
+        <div class ="characterselectinfotype3" id="characterselectinfotype3">ATKTYPE: </div>
+        <div class ="characterselectinfoelement3" id="characterselectinfoelement3">ELEMENT: </div>
+        <div><button onclick="startbattle()">Start Battle</button></div>
+      </div>
+    </div>
+    </div>
     <script src="https://requirejs.org/docs/release/2.3.5/minified/require.js"></script>
     <script type="text/javascript" src="/assets/js/main.js"></script>
 

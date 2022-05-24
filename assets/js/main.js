@@ -1,5 +1,5 @@
  // connect to Moralis server
- const CONTRACTADDRESS = "0x8dB70Cb7F5a9eD849867a98c9605b71532bc33E3";
+ const CONTRACTADDRESS = "0x14577371A82da1d118F1E03B541DFeab8E46168C";
  const ABI = [
 	{
 		"inputs": [
@@ -655,7 +655,6 @@
 		"type": "function"
 	}
 ];
-
  const serverUrl = "https://vbia6ungwme4.usemoralis.com:2053/server";
  const appId = "Cl4BLITUxXGcGnRzbGueG6DP8I7UvmEeNQs5O7oa";
  Moralis.start({ serverUrl, appId });
@@ -710,26 +709,29 @@ async function lognftmetadataindatabase()
         params: { to: user.attributes.ethAddress,},
       };
 	const nftindex = await Moralis.executeFunction(options);
-	console.log(nftindex);
+	nftindexlog = await nftindex.wait(3);
+	nftfinalindex = parseInt(nftindexlog.logs[0].topics[3],16);
+	console.log(nftfinalindex);
 	const Slimenft = Moralis.Object.extend("nfts");
 	const slimenft = new Slimenft();
 	  
 	
-	slimenft.set("index", nftindex);
+	slimenft.set("index", nftfinalindex);
 	const options2 = {
         chain: "bsc testnet",
         contractAddress: CONTRACTADDRESS,
         functionName: "determinestats",
         abi: ABI,
-        params: { tokenID: nftindex,},
+        params: { tokenID: nftfinalindex,},
       };
-	statarray = await Moralis.executeFunction(options2);  
+	const statarray = await Moralis.executeFunction(options2);  
 	
 	slimenft.set("Rank", statarray[0]);
 	slimenft.set("Element", statarray[1]);
 	slimenft.set("HP", statarray[2]);
 	slimenft.set("ATK", statarray[3]);
 	slimenft.set("ATKType", statarray[4]);
+	
 	slimenft.save().then(
 		(slimenft) => {
 		  // Execute any logic that should take place after the object is saved.
@@ -742,100 +744,246 @@ async function lognftmetadataindatabase()
 		}
 	);
 } 
+	function changeeventlogtext(texttoadd)
+	{
+		document.getElementById("eventlog").textContent = "Event Log: " + texttoadd;
+ 	}
+	function enemyairandomizer()
+	{
+		var returnvalue;
+		returnvalue = Math.floor(Math.random() * 3)+1;
+		return returnvalue;
+	}
+	var playercharged = 1;
+	var enemycharged = 1;
+	var gamestate; //1 = ongoing 2=lost 3=won
+	function doaction(typeofaction) //1 = atk 2=defend 3=charge 
+	{
+		var enemymove = enemyairandomizer();
+		if(typeofaction==1)
+		{
+			if(enemymove == 2)
+			{
+				changeeventlogtext("Enemy Defends while you attack. Enemy Takes no Damage");
+			}
+			else if(enemymove == 1)
+			{
+				changeeventlogtext("Enemy attacks while you attack. Enemy takes " + teamcharacterslist[0].atk*playercharged + " damage while you take " + enemycharacterslist[0].atk*enemycharged +" damage.");
+				enemynewhp = enemycharacterslist[0].hp - teamcharacterslist[0].atk * playercharged;
+				enemycharacterslist[0].hp = enemynewhp;
+				document.getElementById("enemycurrenthealth").textContent = "Enemy Health: " +enemynewhp;
 
+				playernewhp = teamcharacterslist[0].hp - enemycharacterslist[0].atk * enemycharged;
+				teamcharacterslist[0].hp = playernewhp;
+				document.getElementById("playercurrenthealth").textContent = "Player Health: " +playernewhp;
 
+				playercharged = 1;
+				enemycharged = 1;
+				
+			}
+			else
+			{
+				changeeventlogtext("Enemy charges while you attack. Enemy takes " +  teamcharacterslist[0].atk*playercharged + " damage while enemy is now charged ");
 
- async function getnftlist() {
-	var listofnfts = new Array();
-    let user = Moralis.User.current();
-    const options = {
-        chain: "bsc testnet",
-        address: CONTRACTADDRESS,
-        function_name: "balanceOf",
-        abi: ABI,
-        params: { owner: user.attributes.ethAddress},
-      };
-    const balanceoftokens = await Moralis.Web3API.native.runContractFunction(options);
-    var pagenumber = document.getElementById("page-item").textContent;
-      console.log(pagenumber);
-    const x = await Moralis.Web3API.account.getNFTsForContract({
-        chain: "bsc testnet",
-        address: user.attributes.ethAddress,
-        token_address: CONTRACTADDRESS,
-      })
+				enemynewhp = enemycharacterslist[0].hp - teamcharacterslist[0].atk * playercharged;
+				enemycharacterslist[0].hp = enemynewhp;
+				document.getElementById("enemycurrenthealth").textContent = "Enemy Health: " +enemynewhp;
 
-	  var slotnumber;
-	  var tempelement;
+				enemycharged = 2;
+				playercharged = 1;
+			}
+		}
+		else if(typeofaction == 2)
+		{
+			if(enemymove == 2)
+			{
+				changeeventlogtext("Enemy Defends while you defend. No one takes damage");
+			}
+			else if(enemymove == 1)
+			{
+				changeeventlogtext("Enemy attacks while you defend. You do not take any damage");
+				
+			}
+			else
+			{
+				changeeventlogtext("Enemy charges while you defend. Enemy is now charged ");
+				enemycharged = 2;
+			}
+		}
+		else if(typeofaction == 3)
+		{
+			if(enemymove == 2)
+			{
+				changeeventlogtext("Enemy Defends while you charge. No one takes damage and you are now charged");
+				playercharged = 2;
+			}
+			else if(enemymove == 1)
+			{
+				changeeventlogtext("Enemy attacks while you charge. You take " + enemycharacterslist[0].atk*enemycharged + " damage");
+				playernewhp = teamcharacterslist[0].hp - enemycharacterslist[0].atk * enemycharged;
+				teamcharacterslist[0].hp = playernewhp;
+				document.getElementById("playercurrenthealth").textContent = "Player Health: " +playernewhp;
 
-    for(let o = 0; o<balanceoftokens.toString()/9;o++)
-     {
-         for(let i =0 ;i<9;i++)
-         {
-            var currentpointer = 9*(parseInt(pagenumber)-1) + i;
-            if(9*(parseInt(pagenumber)-1) + i > balanceoftokens-1)
-            {
-                break;
-            }
-            slotnumber = i+1;
-            tempelement = document.getElementById("innerinventory"+slotnumber);
-			console.log(slotnumber);
-
-
-            const temparray = x["result"];
-            const unitfromarray = temparray[currentpointer];
-            const urioftoken = unitfromarray["token_uri"];
-			const tokenid = unitfromarray["token_id"];
-
-			console.log(x);
-			const options = {
-				chain: "bsc testnet",
-				address: CONTRACTADDRESS,
-				function_name: "determinestats",
-				abi: ABI,
-				params: { tokenID: tokenid },
-			  };
-			const statarray = await Moralis.Web3API.native.runContractFunction(options);
-			const element = statarray[1];
-			console.log(element);
-			const query = new Moralis.Query('slimeparts')
-			query.equalTo('info', element)
-			await query.find().then(function ([application]) {
+				playercharged = 2;
+				
+			}
+			else
+			{
+				changeeventlogtext("Enemy charges while you charge. Enemy is now charged while you are also charged");
+				playercharged = 2;
+				enemycharged = 2;
+			}
+		}
+		if(teamcharacterslist[0].hp<=0)
+			{
+				if(enemycharacterslist[0].hp<= 0)
+				{
+					document.getElementById("eventlog").textContent = "EVENT LOG: TIE";
+				}
+				else
+				{
+					document.getElementById("eventlog").textContent = "EVENT LOG: LOST";
+				}
+			}
+			else if(enemycharacterslist[0].hp<=0)
+			{
+				document.getElementById("eventlog").textContent = "EVENT LOG: YOU WIN";
+			}
+	}
+	async function startbattle()
+	{
+		document.getElementsByClassName("notingame")[0].style.display = 'none';
+		//initialization of characters
+		const query = new Moralis.Query('slimeparts');
+		const element = teamcharacterslist[0].element;
+		query.equalTo('info', element);
+		await query.find().then(function ([application]) {
+				const ipfs = application.get('file').ipfs()
+				const hash = application.get('file').hash()
+				document.getElementById("currentcharacter").src = ipfs;
+				});
+		document.getElementById("playercurrenthealth").textContent = "Player Health: " + teamcharacterslist[0].hp;
+		document.getElementById("enemycurrenthealth").textContent = "Enemy Health: " + enemycharacterslist[0].hp;
+	}
+	function nextpage()
+	{
+		var pagenumber = document.getElementById("page-item").textContent;
+		var pagenumbervalue = parseInt(pagenumber);
+		pagenumbervalue += 1;
+		document.getElementById("page-item").textContent = pagenumbervalue;
+		getnftlist()
+	}
+	function previouspage()
+	{
+		var pagenumber = document.getElementById("page-item").textContent;
+		var pagenumbervalue = parseInt(pagenumber);
+		if(pagenumbervalue == 1)
+		{
+			console.log("cannot go further");
+		}
+		else
+		{
+			pagenumbervalue -= 1;
+			document.getElementById("page-item").textContent = pagenumbervalue;
+			getnftlist()
+		}
 		
-				   const ipfs = application.get('file').ipfs()
-				   const hash = application.get('file').hash()
-				   console.log('IPFS url', ipfs)
-				   console.log('IPFS hash', hash)
-				   console.log(tempelement);
-				   tempelement.src=ipfs;
-				})
+	}
 
 
-			temprank = document.getElementById("innerinventory" + slotnumber + "rank");	
-			const rank = statarray[0];
-			console.log(rank);
-			const rankquery = new Moralis.Query('slimeparts')
-			rankquery.equalTo('info', rank)
-			await rankquery.find().then(function ([application]) {
-		
-				   const ipfs = application.get('file').ipfs()
-				   const hash = application.get('file').hash()
-				   console.log('IPFS url', ipfs)
-				   console.log('IPFS hash', hash)
-				   console.log(tempelement);
-				   temprank.src=ipfs;
-				})		
+
+	async function getnftlist() {
+		var listofnfts = new Array();
+		let user = Moralis.User.current();
+		const options = {
+			chain: "bsc testnet",
+			address: CONTRACTADDRESS,
+			function_name: "balanceOf",
+			abi: ABI,
+			params: { owner: user.attributes.ethAddress},
+		};
+		const balanceoftokens = await Moralis.Web3API.native.runContractFunction(options);
+		var pagenumber = document.getElementById("page-item").textContent;
+		console.log(pagenumber);
+		var pagenumbervalue = parseInt(pagenumber)-1;
+
+		var slotnumber = 1;
+		var tempelement;
+		var element;
+		var rank;
+
+			for(let i =pagenumbervalue*9 ;i<(pagenumbervalue*9)+9;i++)
+			{
+				var currentpointer = i;
+				if(i > balanceoftokens-1)
+				{
+					var currentslot = i%9+1
+					while(currentslot < 10)
+					{
+						
+						var emptyslots = i%9+1;
+						console.log(emptyslots);
+						tempelement = document.getElementById("innerinventory"+emptyslots);
+						temprank = document.getElementById("innerinventory" + emptyslots + "rank");	
+						tempelement.src="/assets/images/empty.png";
+						temprank.src="/assets/images/filler.png";
+						i++;
+						currentslot++;
+					}
+					break;
+				}
+				slotnumber = i%9+1;
+				tempelement = document.getElementById("innerinventory"+slotnumber);
+				const nfts = Moralis.Object.extend("nfts");
+				const nftquery = new Moralis.Query(nfts);
+				nftquery.equalTo('index',i)
+				await nftquery.find().then(function ([application]){
+				console.log(application);
+				element = application.attributes.Element;
+				rank = application.attributes.Rank;
+				
+
+				});
+				console.log(slotnumber);
+				console.log(element);
+				const query = new Moralis.Query('slimeparts');
+				query.equalTo('info', element);
+				await query.find().then(function ([application]) {
 			
-		
+					const ipfs = application.get('file').ipfs()
+					const hash = application.get('file').hash()
+					console.log('IPFS url', ipfs)
+					console.log('IPFS hash', hash)
+					console.log(tempelement);
+					tempelement.src=ipfs;
+					});
 
-            
+
+				temprank = document.getElementById("innerinventory" + slotnumber + "rank");	
+				console.log(rank);
+				const rankquery = new Moralis.Query('slimeparts')
+				rankquery.equalTo('info', rank)
+				await rankquery.find().then(function ([application]) {
+			
+					const ipfs = application.get('file').ipfs()
+					const hash = application.get('file').hash()
+					console.log('IPFS url', ipfs)
+					console.log('IPFS hash', hash)
+					console.log(tempelement);
+					temprank.src=ipfs;
+					})		
+				
+			
+
+				
 
 
-        }
+			
 
-            
-        }
+				
+			}
 
-  }
+	}
 
 
 
@@ -850,6 +998,8 @@ function init(){
 		document.getElementById("btn-logout").style.display = "block";
 		document.getElementById("btn-login").textContent = user.attributes.ethAddress.substring(0,8) + "....";
 	}
+	
+
 }
 
 	
@@ -861,13 +1011,127 @@ function init(){
    console.log("logged out");
  }
  init();
+ var teamcharacterslist = [new teamcharacters(-1,0,0,0,0,false), new teamcharacters(-1,0,0,0,0,false), new teamcharacters(-1,0,0,0,0,false)];
+ var enemycharacterslist = [new teamcharacters(-1,500,20,1,"fire",false)];
  document.getElementById("btn-login").onclick = login;
  document.getElementById("btn-logout").onclick = logOut;
  //get nft list VVVVVV
- //document.getElementById("get-nft-list").onclick = getnftlist;
+ document.getElementById("get-nft-list").onclick = getnftlist;
 
  //testing offchain metadata VVVVV
- document.getElementById("get-nft-list").onclick = lognftmetadataindatabase;
+ //document.getElementById("get-nft-list").onclick = lognftmetadataindatabase;
+
+
+
+function checkifselected(indextocheck)
+{
+	for(let i = 0;i<3;i++)
+	{
+		
+		if(teamcharacterslist[i].id == indextocheck)
+		{
+			return [true,i];
+		}
+	}
+	return [false,-1];
+}
+function checkforfreeslot()
+{
+	for(let i = 0;i<3;i++)
+	{
+		if(teamcharacterslist[i].filled == false)
+		{
+			return i;
+		}
+	}
+	return -1;
+}
+async function changevaluesofteamcharacterlist(cleardataorchange, indextochange, indexofnft) //cleardataorchange == 0 means clear 1 means change;
+{
+	if(cleardataorchange == 0)
+	{
+		teamcharacterslist[indextochange].id = -1;
+		teamcharacterslist[indextochange].hp = 0;
+		teamcharacterslist[indextochange].atk = 0;
+		teamcharacterslist[indextochange].atktype = 0;
+		teamcharacterslist[indextochange].element = 0;
+		teamcharacterslist[indextochange].filled = false;
+	}
+	else
+	{
+		teamcharacterslist[indextochange].id = indexofnft;
+		const nfts = Moralis.Object.extend("nfts");
+				const nftquery = new Moralis.Query(nfts);
+				nftquery.equalTo('index',indexofnft)
+				await nftquery.find().then(function ([application]){
+				teamcharacterslist[indextochange].element = application.attributes.Element;
+				rank = application.attributes.Rank;
+				var workingindex = indextochange + 1;
+				document.getElementById("characterselectinfoid"+workingindex).textContent = "ID: " + teamcharacterslist[indextochange].id;
+				teamcharacterslist[indextochange].hp = application.attributes.HP;
+				document.getElementById("characterselectinfohp"+workingindex).textContent = "HP: " + teamcharacterslist[indextochange].hp;
+				teamcharacterslist[indextochange].atk = application.attributes.ATK;
+				document.getElementById("characterselectinfoatk"+workingindex).textContent = "ATK: " + teamcharacterslist[indextochange].atk;
+				teamcharacterslist[indextochange].atktype = application.attributes.ATKType;
+				var atktypestring;
+				if(application.attributes.ATKType == 1)
+				{
+					atktypestring ="Melee";			
+				}
+				else if (application.attributes.ATKType == 2)
+				{
+					atktypestring = "Ranged";
+				}
+				else if (application.attributes.ATKType == 3)
+				{
+					atktypestring = "Mage";
+				}
+				document.getElementById("characterselectinfotype"+workingindex).textContent = "ATKTYPE: " + atktypestring;
+				teamcharacterslist[indextochange].element = application.attributes.Element;
+				document.getElementById("characterselectinfoelement"+workingindex).textContent = "Element: " + teamcharacterslist[indextochange].element;
+				teamcharacterslist[indextochange].filled = true;
+				});
+	}
+}
+async function clickoncharacter(currentslot)
+{
+	var characterindex = currentslot - 1  + (parseInt(document.getElementById("page-item").textContent) - 1 ) * 9;
+	console.log(characterindex);
+	checkifselectedarray = checkifselected(characterindex);
+	var freeslot = checkforfreeslot();
+	
+	if(checkifselectedarray[0] == false)
+	{
+		if(freeslot == -1)
+		{
+			console.log("full team");
+		}
+		else
+		{
+			teamcharacterslist[freeslot].id = characterindex;
+			await changevaluesofteamcharacterlist(1,freeslot,characterindex).then(function(){
+			console.log(teamcharacterslist[freeslot]);	
+			});
+			const query = new Moralis.Query('slimeparts');
+			const element = teamcharacterslist[freeslot].element;
+			query.equalTo('info', element);
+			await query.find().then(function ([application]) {
+					const slotelement = freeslot + 1;
+					const ipfs = application.get('file').ipfs()
+					const hash = application.get('file').hash()
+					document.getElementById("characterselectelement" + slotelement).src = ipfs;
+					});
+			
+		}
+	}
+	else
+	{
+		const slotelement = checkifselectedarray[1] + 1;
+		changevaluesofteamcharacterlist(0,checkifselectedarray[1],0);
+		document.getElementById("characterselectelement" + slotelement).src = "/assets/images/empty.png";
+	}
+}
+
 
 
 
@@ -940,3 +1204,12 @@ var inv9r = document.getElementById("innerinventory9rank");
 inv9r.style.width=64;
 inv9r.style.height=64;
 
+
+function teamcharacters(id, hp, atk, atktype, element,filled) {
+    this.id = id;
+    this.hp = hp;
+    this.atk = atk;
+    this.atktype = atktype;
+	this.element = element;
+	this.filled = filled;
+}
